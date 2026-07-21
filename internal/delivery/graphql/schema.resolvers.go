@@ -7,7 +7,6 @@ package graphql
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/Jhosep2022/prueba-tecnica-go-graphql-productos/graph/generated"
 	"github.com/Jhosep2022/prueba-tecnica-go-graphql-productos/graph/model"
@@ -15,27 +14,57 @@ import (
 
 // CreateProduct is the resolver for the createProduct field.
 func (r *mutationResolver) CreateProduct(ctx context.Context, input model.CreateProductInput) (*model.Product, error) {
-	panic(fmt.Errorf("not implemented: CreateProduct - createProduct"))
+	product, err := r.productUseCase.CreateProduct(
+		ctx,
+		input.Name,
+		input.Price,
+		input.Stock,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return toProductModel(product), nil
 }
 
 // UpdateProduct is the resolver for the updateProduct field.
 func (r *mutationResolver) UpdateProduct(ctx context.Context, id string, input model.UpdateProductInput) (*model.Product, error) {
-	panic(fmt.Errorf("not implemented: UpdateProduct - updateProduct"))
+	product, err := r.productUseCase.UpdateProduct(
+		ctx,
+		id,
+		input.Name,
+		input.Price,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return toProductModel(product), nil
 }
 
 // DeleteProduct is the resolver for the deleteProduct field.
 func (r *mutationResolver) DeleteProduct(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteProduct - deleteProduct"))
+	if err := r.productUseCase.DeleteProduct(ctx, id); err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 // Products is the resolver for the products field.
 func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) {
-	panic(fmt.Errorf("not implemented: Products - products"))
+	products, err := r.productUseCase.ListProducts(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return toProductModels(products), nil
 }
 
 // Product is the resolver for the product field.
 func (r *queryResolver) Product(ctx context.Context, id string) (*model.Product, error) {
-	panic(fmt.Errorf("not implemented: Product - product"))
+	product, err := r.productUseCase.GetProductByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return toProductModel(product), nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

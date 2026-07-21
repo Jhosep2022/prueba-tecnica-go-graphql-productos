@@ -1,8 +1,15 @@
 package graphql
 
-// This file will not be regenerated automatically.
-//
-// It serves as dependency injection for your app, add any dependencies you require
-// here.
+import "github.com/Jhosep2022/prueba-tecnica-go-graphql-productos/internal/usecase"
 
-type Resolver struct{}
+// Resolver contains the dependencies for required by GraphQL resolvers.
+type Resolver struct {
+	productUseCase *usecase.ProductUseCase
+}
+
+// NewResolver creates a new Resolver with its required dependencies.
+func NewResolver(productUseCase *usecase.ProductUseCase) *Resolver {
+	return &Resolver{
+		productUseCase: productUseCase,
+	}
+}
