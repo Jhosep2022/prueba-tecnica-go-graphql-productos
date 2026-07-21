@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+.idea
+.vscode
+
+.env
+*.log
+
+bin
+dist
+coverage.out
+coverage.html
+
+docs
+README.md
